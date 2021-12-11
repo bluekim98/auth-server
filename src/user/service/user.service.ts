@@ -2,11 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { User } from '@src/database/entity/user/user.entity';
 import { BcryptService } from '@src/utils/service/bcrypt.service';
 import { Repository } from 'typeorm';
-
-export class CreateUserDto {
-    email: string;
-    password: string;
-}
+import { CreateUserDto } from '../dto';
 
 export interface UserFindOneWhere {
     id?: number;

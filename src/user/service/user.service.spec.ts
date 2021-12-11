@@ -1,8 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { User } from '@src/database/entity/user/user.entity';
 import { Repository } from 'typeorm';
+import { CreateUserDto } from '../dto';
 import { UserModule } from '../user.module';
-import { CreateUserDto, UserService } from './user.service';
+import { UserService } from './user.service';
 
 describe('UserService', () => {
     let userService: UserService;

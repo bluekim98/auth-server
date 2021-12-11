@@ -1,21 +1,23 @@
+import { ConfigService } from '@nestjs/config';
 import { createConnection } from 'typeorm';
 import { User } from '../entity/user/user.entity';
 
 export const databaseProviders = [
     {
         provide: 'DATABASE_CONNECTION',
-        useFactory: async () =>
+        useFactory: async (configService: ConfigService) =>
             await createConnection({
                 type: 'mysql',
-                host: process.env.MYSQL_HOST,
-                port: Number(process.env.MYSQL_PORT),
-                username: process.env.MYSQL_USER,
-                password: process.env.MYSQL_PASSWORD,
-                database: process.env.MYSQL_DATABASE,
+                host: configService.get('MYSQL_HOST'),
+                port: configService.get<number>('MYSQL_PORT'),
+                username: configService.get('MYSQL_USER'),
+                password: configService.get('MYSQL_PASSWORD'),
+                database: configService.get('MYSQL_DATABASE'),
                 // entities: [__dirname + '/../entity/**/*.ts'],
                 entities: [User],
                 synchronize: true,
                 // logging: ['query', 'error'],
             }),
+        inject: [ConfigService],
     },
 ];

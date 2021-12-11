@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { User } from '@src/database/entity/user/user.entity';
-import { CreateUserDto, UserService } from '@src/user/service/user.service';
+import { CreateUserDto } from '@src/user/dto';
+import { UserService } from '@src/user/service/user.service';
 import { UserModule } from '@src/user/user.module';
 import { Repository } from 'typeorm';
 import { AuthModule } from '../auth.module';

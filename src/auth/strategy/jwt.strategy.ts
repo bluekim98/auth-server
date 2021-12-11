@@ -3,6 +3,8 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '@src/user/service/user.service';
 import { Request } from 'express';
+import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
 
 export interface TokenPayload {
     sub: number;
@@ -11,15 +13,18 @@ export interface TokenPayload {
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
-    constructor(private readonly userService: UserService) {
+    constructor(
+        private readonly configService: ConfigService,
+        private readonly userService: UserService,
+    ) {
         super({
             jwtFromRequest: ExtractJwt.fromExtractors([
-                (request: Request) => {
-                    return request?.cookies?.Authentication;
+                (req: Request) => {
+                    return req?.cookies?.Authentication;
                 },
             ]),
             ignoreExpiration: false,
-            secretOrKey: process.env.JWT_ACCESS_SECRET,
+            secretOrKey: configService.get('JWT_ACCESS_SECRET'),
             passReqToCallback: true,
         });
     }
@@ -36,15 +41,18 @@ export class JwtRefreshStrategy extends PassportStrategy(
     Strategy,
     'jwt-refresh',
 ) {
-    constructor(private readonly userService: UserService) {
+    constructor(
+        private readonly configService: ConfigService,
+        private readonly userService: UserService,
+    ) {
         super({
             jwtFromRequest: ExtractJwt.fromExtractors([
-                (request: Request) => {
-                    return request?.cookies?.Refresh;
+                (req: Request) => {
+                    return req?.cookies?.Refresh;
                 },
             ]),
             ignoreExpiration: false,
-            secretOrKey: process.env.JWT_REFRESH_SECRET,
+            secretOrKey: configService.get('JWT_REFRESH_SECRET'),
             passReqToCallback: true,
         });
     }

@@ -6,6 +6,12 @@ import { AppConfigModule } from './app-config/app-config.module';
 import { UtilsModule } from './utils/utils.module';
 
 @Module({
-    imports: [AuthModule, UserModule, DatabaseModule, AppConfigModule, UtilsModule],
+    imports: [
+        AuthModule,
+        UserModule,
+        DatabaseModule,
+        AppConfigModule,
+        UtilsModule,
+    ],
 })
 export class AppModule {}
